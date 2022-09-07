@@ -60,7 +60,7 @@ public class Window {
         GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, 4);
 
         // Create the window
-        window = GLFW.glfwCreateWindow(width, height, "Hello World!", MemoryUtil.NULL, MemoryUtil.NULL);
+        window = GLFW.glfwCreateWindow(width, height, "LWJGL Window", MemoryUtil.NULL, MemoryUtil.NULL);
         if (window == MemoryUtil.NULL) {
             throw new RuntimeException("Failed to create the GLFW window");
         }
@@ -87,6 +87,6 @@ public class Window {
 
     public ByteBuffer getScreen() {
         if (!isInit) return null;
-        return renderer.buffer.asReadOnlyBuffer();
+        return renderer.buffer;
     }
 }

@@ -15,7 +15,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        primaryStage.setTitle("JavaFX LWJGL Template");
+        primaryStage.setTitle("JavaFX Canvas");
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.show();

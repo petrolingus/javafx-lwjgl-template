@@ -1,18 +1,14 @@
 package me.petrolingus.jlt;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
-import javafx.util.Duration;
 import me.petrolingus.jlt.lwjgl.Window;
 
 import java.nio.ByteBuffer;
-import java.util.concurrent.TimeUnit;
 
 public class Controller {
 
@@ -33,15 +29,17 @@ public class Controller {
 
         new Thread(() -> {
             PixelWriter pw = img.getPixelWriter();
+            int bpp = 4;
+            int[] pixels = new int[width * height];
+
             while (true) {
 
                 if (!window.isInit()) {
                     System.out.println("continue...");
                     continue;
                 }
+
                 ByteBuffer buffer = window.getScreen();
-                int bpp = 4;
-                int[] pixels = new int[width * height];
                 for (int y = 0; y < width; y++) {
                     for (int x = 0; x < height; x++) {
                         int i = (x + (width * y)) * bpp;
@@ -58,25 +56,15 @@ public class Controller {
         }).start();
 
         new Thread(() -> {
+            long start = System.nanoTime();
             while (true) {
-                call(graphicsContext2D, img);
-                try {
-                    TimeUnit.MILLISECONDS.sleep(16);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                long stop = System.nanoTime();
+                if (stop - start > 5_000_000) {
+                    start = stop;
+                    call(graphicsContext2D, img);
                 }
             }
         }).start();
-
-//        Timeline timeline = new Timeline(
-//                new KeyFrame(
-//                        Duration.millis(16),
-//                        event -> call(graphicsContext2D, img)
-//                ),
-//                new KeyFrame(Duration.millis(16))
-//        );
-//        timeline.setCycleCount(Timeline.INDEFINITE);
-//        timeline.play();
     }
 
     private void call(GraphicsContext graphicsContext, WritableImage img) {

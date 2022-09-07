@@ -30,14 +30,7 @@ public class Renderer {
 
     public void loop() {
 
-        System.out.println("LOOP STARTED");
-
-        // OpenGL config
         GL.createCapabilities();
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
-        GL11.glEnable(GL11.GL_STENCIL_TEST);
-        GL11.glEnable(GL11.GL_CULL_FACE);
-        GL11.glFrontFace(GL11.GL_CCW);
         GL11.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
         int n = 500;
@@ -54,7 +47,7 @@ public class Renderer {
             particles[i] = particle;
         }
 
-        GL11.glPointSize(10);
+        GL11.glPointSize(1);
 
         while (!GLFW.glfwWindowShouldClose(window)) {
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT | GL11.GL_STENCIL_BUFFER_BIT);
@@ -71,8 +64,6 @@ public class Renderer {
                 particle.move();
             }
 
-            // Prepare image for JavaFX canvas
-            GL11.glReadBuffer(GL11.GL_FRONT_AND_BACK);
             GL11.glReadPixels(0, 0, width, height, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);
 
             GLFW.glfwSwapBuffers(window);
