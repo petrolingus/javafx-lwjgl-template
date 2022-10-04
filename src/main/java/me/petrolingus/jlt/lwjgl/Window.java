@@ -26,10 +26,6 @@ public class Window {
         this.isInit = false;
     }
 
-    public static void main(String[] args) {
-        new Window(700, 700).run();
-    }
-
     public void run() {
         init();
         this.renderer = new Renderer(width, height, window);
@@ -54,7 +50,7 @@ public class Window {
 
         // Configure GLFW
         GLFW.glfwDefaultWindowHints();
-        GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_TRUE);
+        GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_FALSE);
         GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_FALSE);
         GLFW.glfwWindowHint(GLFW.GLFW_STENCIL_BITS, 4);
         GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, 4);
@@ -74,7 +70,7 @@ public class Window {
 
         GLFW.glfwMakeContextCurrent(window);
         GLFW.glfwSwapInterval(1);
-//        GLFW.glfwHideWindow(window);
+        GLFW.glfwHideWindow(window);
     }
 
     private void loop() {
@@ -86,7 +82,6 @@ public class Window {
     }
 
     public ByteBuffer getScreen() {
-        if (!isInit) return null;
-        return renderer.buffer;
+        return renderer.buffer.asReadOnlyBuffer();
     }
 }

@@ -32,6 +32,7 @@ public class Renderer {
 
         GL.createCapabilities();
         GL11.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        GL11.glPointSize(8);
 
         int n = 500;
         Bound bound = new Bound(-1, 1, 1, -1);
@@ -40,14 +41,12 @@ public class Renderer {
         for (int i = 0; i < n; i++) {
             double x = ThreadLocalRandom.current().nextDouble(-0.99, 0.99);
             double y = ThreadLocalRandom.current().nextDouble(-0.99, 0.99);
-            double vx = ThreadLocalRandom.current().nextDouble(-0.01, 0.01);
-            double vy = ThreadLocalRandom.current().nextDouble(-0.01, 0.01);
+            double vx = ThreadLocalRandom.current().nextDouble(-0.0005, 0.0005);
+            double vy = ThreadLocalRandom.current().nextDouble(-0.0005, 0.0005);
             Particle particle = new Particle(x, y, vx, vy);
             particle.setBound(bound);
             particles[i] = particle;
         }
-
-        GL11.glPointSize(1);
 
         while (!GLFW.glfwWindowShouldClose(window)) {
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT | GL11.GL_STENCIL_BUFFER_BIT);
@@ -65,9 +64,6 @@ public class Renderer {
             }
 
             GL11.glReadPixels(0, 0, width, height, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);
-
-            GLFW.glfwSwapBuffers(window);
-            GLFW.glfwPollEvents();
         }
 
     }
